@@ -1,8 +1,10 @@
 package com.gildedgames.the_aether.entities.projectile.crystals;
 
 public enum EnumCrystalType {
-
-    FIRE("random.fizz", "largesmoke", "random.explode", "flame"), ICE("dig.glass", "", "dig.glass", "snowshovel"), THUNDER(), CLOUD("dig.glass", "", "dig.glass", "snowshovel");
+    FIRE("random.fizz", "largesmoke", "random.explode", "flame"),
+    ICE("dig.glass", "", "dig.glass", "snowshovel"),
+    THUNDER(),
+    CLOUD("dig.glass", "", "dig.glass", "snowshovel");
 
     private String deathSound = "";
 
@@ -12,11 +14,14 @@ public enum EnumCrystalType {
 
     private String explosionParticle = "";
 
-    private EnumCrystalType() {
+    private EnumCrystalType() {}
 
-    }
-
-    EnumCrystalType(String deathSound, String deathParticle, String explosionSound, String explosionParticle) {
+    EnumCrystalType(
+        String deathSound,
+        String deathParticle,
+        String explosionSound,
+        String explosionParticle
+    ) {
         this.deathSound = deathSound;
         this.deathParticle = deathParticle;
         this.explosionSound = explosionSound;

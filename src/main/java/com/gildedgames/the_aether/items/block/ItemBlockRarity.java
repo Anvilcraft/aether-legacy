@@ -6,7 +6,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 public class ItemBlockRarity extends ItemBlock {
-
     private final EnumRarity rarity;
 
     public ItemBlockRarity(Block block, EnumRarity rarity) {

@@ -14,7 +14,6 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 public abstract class EntityBossMob extends EntityCreature implements IMob {
-
     public EntityBossMob(World world) {
         super(world);
 
@@ -46,8 +45,10 @@ public abstract class EntityBossMob extends EntityCreature implements IMob {
 
     @Override
     protected Entity findPlayerToAttack() {
-        EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, 16.0D);
-        return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer : null;
+        EntityPlayer entityplayer
+            = this.worldObj.getClosestVulnerablePlayerToEntity(this, 16.0D);
+        return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer
+                                                                          : null;
     }
 
     @Override
@@ -73,19 +74,32 @@ public abstract class EntityBossMob extends EntityCreature implements IMob {
 
     @Override
     public boolean attackEntityAsMob(Entity p_70652_1_) {
-        float f = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+        float f = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
+                      .getAttributeValue();
         int i = 0;
 
         if (p_70652_1_ instanceof EntityLivingBase) {
-            f += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase) p_70652_1_);
-            i += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase) p_70652_1_);
+            f += EnchantmentHelper.getEnchantmentModifierLiving(
+                this, (EntityLivingBase) p_70652_1_
+            );
+            i += EnchantmentHelper.getKnockbackModifier(
+                this, (EntityLivingBase) p_70652_1_
+            );
         }
 
         boolean flag = p_70652_1_.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
         if (flag) {
             if (i > 0) {
-                p_70652_1_.addVelocity((double) (-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F), 0.1D, (double) (MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F));
+                p_70652_1_.addVelocity(
+                    (double
+                    ) (-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F)
+                       * (float) i * 0.5F),
+                    0.1D,
+                    (double
+                    ) (MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F)
+                       * (float) i * 0.5F)
+                );
                 this.motionX *= 0.6D;
                 this.motionZ *= 0.6D;
             }
@@ -108,7 +122,9 @@ public abstract class EntityBossMob extends EntityCreature implements IMob {
 
     @Override
     protected void attackEntity(Entity p_70785_1_, float p_70785_2_) {
-        if (this.attackTime <= 0 && p_70785_2_ < 2.0F && p_70785_1_.boundingBox.maxY > this.boundingBox.minY && p_70785_1_.boundingBox.minY < this.boundingBox.maxY) {
+        if (this.attackTime <= 0 && p_70785_2_ < 2.0F
+            && p_70785_1_.boundingBox.maxY > this.boundingBox.minY
+            && p_70785_1_.boundingBox.minY < this.boundingBox.maxY) {
             this.attackTime = 20;
             this.attackEntityAsMob(p_70785_1_);
         }
@@ -116,7 +132,8 @@ public abstract class EntityBossMob extends EntityCreature implements IMob {
 
     @Override
     public float getBlockPathWeight(int p_70783_1_, int p_70783_2_, int p_70783_3_) {
-        return 0.5F - this.worldObj.getLightBrightness(p_70783_1_, p_70783_2_, p_70783_3_);
+        return 0.5F
+            - this.worldObj.getLightBrightness(p_70783_1_, p_70783_2_, p_70783_3_);
     }
 
     protected boolean isValidLightLevel() {
@@ -124,7 +141,8 @@ public abstract class EntityBossMob extends EntityCreature implements IMob {
         int j = MathHelper.floor_double(this.boundingBox.minY);
         int k = MathHelper.floor_double(this.posZ);
 
-        if (this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, i, j, k) > this.rand.nextInt(32)) {
+        if (this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, i, j, k)
+            > this.rand.nextInt(32)) {
             return false;
         } else {
             int l = this.worldObj.getBlockLightValue(i, j, k);
@@ -156,7 +174,8 @@ public abstract class EntityBossMob extends EntityCreature implements IMob {
 
     @Override
     protected String func_146067_o(int p_146067_1_) {
-        return p_146067_1_ > 4 ? "game.hostile.hurt.fall.big" : "game.hostile.hurt.fall.small";
+        return p_146067_1_ > 4 ? "game.hostile.hurt.fall.big"
+                               : "game.hostile.hurt.fall.small";
     }
 
     @Override
@@ -178,5 +197,4 @@ public abstract class EntityBossMob extends EntityCreature implements IMob {
     protected String getDeathSound() {
         return "game.hostile.die";
     }
-
 }

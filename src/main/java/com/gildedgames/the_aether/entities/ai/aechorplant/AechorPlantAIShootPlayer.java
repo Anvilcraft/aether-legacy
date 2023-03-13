@@ -6,7 +6,6 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.world.EnumDifficulty;
 
 public class AechorPlantAIShootPlayer extends EntityAIBase {
-
     private EntityAechorPlant shooter;
 
     private int reloadTime;
@@ -23,7 +22,8 @@ public class AechorPlantAIShootPlayer extends EntityAIBase {
 
     @Override
     public void updateTask() {
-        double distanceToPlayer = this.shooter.getEntityToAttack().getDistanceToEntity(this.shooter);
+        double distanceToPlayer
+            = this.shooter.getEntityToAttack().getDistanceToEntity(this.shooter);
         double lookDistance = 5.5D + ((double) this.shooter.getSize() / 2D);
 
         if (this.shooter.getEntityToAttack().isDead || distanceToPlayer > lookDistance) {
@@ -31,7 +31,8 @@ public class AechorPlantAIShootPlayer extends EntityAIBase {
             this.reloadTime = 0;
         }
 
-        if (this.reloadTime == 20 && this.shooter.canEntityBeSeen(this.shooter.getEntityToAttack())) {
+        if (this.reloadTime == 20
+            && this.shooter.canEntityBeSeen(this.shooter.getEntityToAttack())) {
             this.shootAtPlayer();
             this.reloadTime = -10;
         }
@@ -48,21 +49,24 @@ public class AechorPlantAIShootPlayer extends EntityAIBase {
 
         double x = this.shooter.getEntityToAttack().posX - this.shooter.posX;
         double z = this.shooter.getEntityToAttack().posZ - this.shooter.posZ;
-        double y = 0.1D + (Math.sqrt((x * x) + (z * z) + 0.1D) * 0.5D) + ((this.shooter.posY - this.shooter.getEntityToAttack().posY) * 0.25D);
+        double y = 0.1D + (Math.sqrt((x * x) + (z * z) + 0.1D) * 0.5D)
+            + ((this.shooter.posY - this.shooter.getEntityToAttack().posY) * 0.25D);
 
         double distance = 1.5D / Math.sqrt((x * x) + (z * z) + 0.1D);
 
         x = x * distance;
         z = z * distance;
 
-        EntityPoisonNeedle poisonNeedle = new EntityPoisonNeedle(this.shooter.worldObj, this.shooter, 0.5F);
+        EntityPoisonNeedle poisonNeedle
+            = new EntityPoisonNeedle(this.shooter.worldObj, this.shooter, 0.5F);
 
         poisonNeedle.posY = this.shooter.posY + 1D;
 
-        this.shooter.playSound("random.bow", 1.0F, 1.2F / (this.shooter.getRNG().nextFloat() * 0.2F + 0.9F));
+        this.shooter.playSound(
+            "random.bow", 1.0F, 1.2F / (this.shooter.getRNG().nextFloat() * 0.2F + 0.9F)
+        );
         this.shooter.worldObj.spawnEntityInWorld(poisonNeedle);
 
         poisonNeedle.setThrowableHeading(x, y, z, 0.285F + ((float) y * 0.05F), 1.0F);
     }
-
 }

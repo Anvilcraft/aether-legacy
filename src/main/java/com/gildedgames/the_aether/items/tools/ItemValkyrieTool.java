@@ -11,19 +11,17 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
 public class ItemValkyrieTool extends ItemAetherTool {
+    public ItemValkyrieTool(float damage, EnumAetherToolType toolType) {
+        super(damage, ToolMaterial.EMERALD, toolType);
+    }
 
-	public ItemValkyrieTool(float damage, EnumAetherToolType toolType) {
-		super(damage, ToolMaterial.EMERALD, toolType);
-	}
+    @Override
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+        return false;
+    }
 
-	@Override
-	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		return false;
-	}
-
-	@Override
-	public EnumRarity getRarity(ItemStack stack) {
-		return ItemsAether.aether_loot;
-	}
-
+    @Override
+    public EnumRarity getRarity(ItemStack stack) {
+        return ItemsAether.aether_loot;
+    }
 }

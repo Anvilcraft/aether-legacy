@@ -1,6 +1,7 @@
 package com.gildedgames.the_aether.entities.passive.mountable;
 
 import com.gildedgames.the_aether.AetherConfig;
+import com.gildedgames.the_aether.entities.util.EntitySaddleMount;
 import com.gildedgames.the_aether.items.ItemsAether;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
@@ -14,10 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import com.gildedgames.the_aether.entities.util.EntitySaddleMount;
-
 public class EntityFlyingCow extends EntitySaddleMount {
-
     public float wingFold;
 
     public float wingAngle;
@@ -45,7 +43,9 @@ public class EntityFlyingCow extends EntitySaddleMount {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
         this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, ItemsAether.blueberry, false));
+        this.tasks.addTask(
+            3, new EntityAITempt(this, 1.25D, ItemsAether.blueberry, false)
+        );
         this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25D));
         this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -56,12 +56,14 @@ public class EntityFlyingCow extends EntitySaddleMount {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.20000000298023224D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+            .setBaseValue(0.20000000298023224D);
     }
 
     @Override
     public boolean getCanSpawnHere() {
-        return this.rand.nextInt(AetherConfig.getFlyingCowSpawnrate()) == 0 && super.getCanSpawnHere();
+        return this.rand.nextInt(AetherConfig.getFlyingCowSpawnrate()) == 0
+            && super.getCanSpawnHere();
     }
 
     @Override
@@ -140,10 +142,19 @@ public class EntityFlyingCow extends EntitySaddleMount {
                 Item milk = Items.milk_bucket;
 
                 if (stack != null && stack.stackSize == 1) {
-                    player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(milk));
-                } else if (!player.inventory.addItemStackToInventory(new ItemStack(milk))) {
+                    player.inventory.setInventorySlotContents(
+                        player.inventory.currentItem, new ItemStack(milk)
+                    );
+                } else if (!player.inventory.addItemStackToInventory(new ItemStack(milk)
+                           )) {
                     if (!this.worldObj.isRemote) {
-                        this.worldObj.spawnEntityInWorld(new EntityItem(worldObj, player.posX, player.posY, player.posZ, new ItemStack(milk)));
+                        this.worldObj.spawnEntityInWorld(new EntityItem(
+                            worldObj,
+                            player.posX,
+                            player.posY,
+                            player.posZ,
+                            new ItemStack(milk)
+                        ));
 
                         if (!player.capabilities.isCreativeMode) {
                             --stack.stackSize;
@@ -214,5 +225,4 @@ public class EntityFlyingCow extends EntitySaddleMount {
     protected double getMountJumpStrength() {
         return 5.0D;
     }
-
 }

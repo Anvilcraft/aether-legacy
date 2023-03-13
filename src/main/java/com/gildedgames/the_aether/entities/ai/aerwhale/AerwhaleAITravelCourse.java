@@ -5,12 +5,11 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class AerwhaleAITravelCourse extends EntityAIBase {
-
     private EntityAerwhale aerwhale;
 
     private World worldObj;
@@ -19,7 +18,8 @@ public class AerwhaleAITravelCourse extends EntityAIBase {
 
     private double motionPitch;
 
-    private double origin_direction, westward_direction, eastward_direction, upward_direction, downward_direction;
+    private double origin_direction, westward_direction, eastward_direction,
+        upward_direction, downward_direction;
 
     public AerwhaleAITravelCourse(EntityAerwhale aerwhale) {
         this.aerwhale = aerwhale;
@@ -76,13 +76,11 @@ public class AerwhaleAITravelCourse extends EntityAIBase {
         this.aerwhale.aerwhaleRotationPitch += 0.1D * this.motionPitch;
         this.aerwhale.aerwhaleRotationYaw += 0.1D * this.motionYaw;
 
-
         if (this.aerwhale.rotationPitch < -60F) {
             this.aerwhale.rotationPitch = -60F;
         }
 
-        if (this.aerwhale.aerwhaleRotationPitch < -60D)
-        {
+        if (this.aerwhale.aerwhaleRotationPitch < -60D) {
             this.aerwhale.aerwhaleRotationPitch = -60D;
         }
 
@@ -90,17 +88,21 @@ public class AerwhaleAITravelCourse extends EntityAIBase {
             this.aerwhale.rotationPitch = 60F;
         }
 
-        if (this.aerwhale.aerwhaleRotationPitch < -60D)
-        {
+        if (this.aerwhale.aerwhaleRotationPitch < -60D) {
             this.aerwhale.aerwhaleRotationPitch = -60D;
         }
 
         this.aerwhale.rotationPitch *= 0.99D;
         this.aerwhale.aerwhaleRotationPitch *= 0.99D;
 
-        this.aerwhale.motionX += 0.005D * Math.cos((this.aerwhale.rotationYaw / 180D) * 3.1415926535897931D) * Math.cos((this.aerwhale.rotationPitch / 180D) * 3.1415926535897931D);
-        this.aerwhale.motionY += 0.005D * Math.sin((this.aerwhale.rotationPitch / 180D) * 3.1415926535897931D);
-        this.aerwhale.motionZ += 0.005D * Math.sin((this.aerwhale.rotationYaw / 180D) * 3.1415926535897931D) * Math.cos((this.aerwhale.rotationPitch / 180D) * 3.1415926535897931D);
+        this.aerwhale.motionX += 0.005D
+            * Math.cos((this.aerwhale.rotationYaw / 180D) * 3.1415926535897931D)
+            * Math.cos((this.aerwhale.rotationPitch / 180D) * 3.1415926535897931D);
+        this.aerwhale.motionY += 0.005D
+            * Math.sin((this.aerwhale.rotationPitch / 180D) * 3.1415926535897931D);
+        this.aerwhale.motionZ += 0.005D
+            * Math.sin((this.aerwhale.rotationYaw / 180D) * 3.1415926535897931D)
+            * Math.cos((this.aerwhale.rotationPitch / 180D) * 3.1415926535897931D);
 
         this.aerwhale.motionX *= 0.98D;
         this.aerwhale.motionY *= 0.98D;
@@ -110,7 +112,8 @@ public class AerwhaleAITravelCourse extends EntityAIBase {
         int y = MathHelper.floor_double(this.aerwhale.boundingBox.minY);
         int z = MathHelper.floor_double(this.aerwhale.posZ);
 
-        if (this.aerwhale.motionX > 0D && this.worldObj.getBlock(x + 1, y, z) != Blocks.air) {
+        if (this.aerwhale.motionX > 0D
+            && this.worldObj.getBlock(x + 1, y, z) != Blocks.air) {
             this.aerwhale.motionX = -this.aerwhale.motionX;
             this.motionYaw -= 10F;
         } else if (this.aerwhale.motionX < 0D && worldObj.getBlock(x - 1, y, z) != Blocks.air) {
@@ -118,7 +121,8 @@ public class AerwhaleAITravelCourse extends EntityAIBase {
             this.motionYaw += 10F;
         }
 
-        if (this.aerwhale.motionY > 0D && this.worldObj.getBlock(x, y + 1, z) != Blocks.air) {
+        if (this.aerwhale.motionY > 0D
+            && this.worldObj.getBlock(x, y + 1, z) != Blocks.air) {
             this.aerwhale.motionY = -this.aerwhale.motionY;
             this.motionPitch -= 10F;
         } else if (this.aerwhale.motionY < 0D && this.worldObj.getBlock(x, y - 1, z) != Blocks.air) {
@@ -136,7 +140,11 @@ public class AerwhaleAITravelCourse extends EntityAIBase {
     }
 
     private int getCorrectCourse() {
-        double[] distances = new double[]{this.origin_direction, this.westward_direction, this.upward_direction, this.eastward_direction, this.downward_direction};
+        double[] distances = new double[] { this.origin_direction,
+                                            this.westward_direction,
+                                            this.upward_direction,
+                                            this.eastward_direction,
+                                            this.downward_direction };
 
         int correctCourse = 0;
 
@@ -149,7 +157,8 @@ public class AerwhaleAITravelCourse extends EntityAIBase {
         return correctCourse;
     }
 
-    private double checkForTravelableCourse(float rotationYawOffset, float rotationPitchOffset) {
+    private double
+    checkForTravelableCourse(float rotationYawOffset, float rotationPitchOffset) {
         double standard = 50D;
 
         float yaw = this.aerwhale.rotationYaw + rotationYawOffset;
@@ -164,10 +173,15 @@ public class AerwhaleAITravelCourse extends EntityAIBase {
         float f8 = f6;
         float f9 = f3 * f5;
 
-        Vec3 vec3d = Vec3.createVectorHelper(this.aerwhale.posX, this.aerwhale.boundingBox.minY, this.aerwhale.posZ);
-        Vec3 vec3d1 = vec3d.addVector((double) f7 * standard, (double) f8 * standard, (double) f9 * standard);
+        Vec3 vec3d = Vec3.createVectorHelper(
+            this.aerwhale.posX, this.aerwhale.boundingBox.minY, this.aerwhale.posZ
+        );
+        Vec3 vec3d1 = vec3d.addVector(
+            (double) f7 * standard, (double) f8 * standard, (double) f9 * standard
+        );
 
-        MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3d, vec3d1, true);
+        MovingObjectPosition movingobjectposition
+            = this.worldObj.rayTraceBlocks(vec3d, vec3d1, true);
 
         if (movingobjectposition == null) {
             return standard;
@@ -182,5 +196,4 @@ public class AerwhaleAITravelCourse extends EntityAIBase {
 
         return standard;
     }
-
 }

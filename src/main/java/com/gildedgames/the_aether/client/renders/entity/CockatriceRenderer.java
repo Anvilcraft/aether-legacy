@@ -8,20 +8,21 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
 public class CockatriceRenderer extends RenderLiving {
-
-    private static final ResourceLocation TEXTURE = Aether.locate("textures/entities/cockatrice/cockatrice.png");
+    private static final ResourceLocation TEXTURE
+        = Aether.locate("textures/entities/cockatrice/cockatrice.png");
 
     public CockatriceRenderer() {
         super(new CockatriceModel(), 1.0F);
     }
 
     protected float getWingRotation(EntityCockatrice cockatrice, float f) {
-        float f1 = cockatrice.prevWingRotation + (cockatrice.wingRotation - cockatrice.prevWingRotation) * f;
-        float f2 = cockatrice.prevDestPos + (cockatrice.destPos - cockatrice.prevDestPos) * f;
+        float f1 = cockatrice.prevWingRotation
+            + (cockatrice.wingRotation - cockatrice.prevWingRotation) * f;
+        float f2
+            = cockatrice.prevDestPos + (cockatrice.destPos - cockatrice.prevDestPos) * f;
 
         return (MathHelper.sin(f1) + 1.0F) * f2;
     }
@@ -40,5 +41,4 @@ public class CockatriceRenderer extends RenderLiving {
     protected ResourceLocation getEntityTexture(Entity cockatrice) {
         return TEXTURE;
     }
-
 }

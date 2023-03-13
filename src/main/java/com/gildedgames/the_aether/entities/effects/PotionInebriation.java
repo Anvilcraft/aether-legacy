@@ -19,12 +19,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
 
-public class PotionInebriation extends Potion
-{
+public class PotionInebriation extends Potion {
     public static Potion inebriation;
 
-    public static void initialization()
-    {
+    public static void initialization() {
         inebriation = new PotionInebriation();
     }
 
@@ -32,45 +30,38 @@ public class PotionInebriation extends Potion
 
     public double rotD, motD;
 
-    public PotionInebriation()
-    {
+    public PotionInebriation() {
         super(AetherConfig.getInebriationId(), true, 0x51297B);
         this.duration = 0;
         this.setPotionName("effect.aether.inebriation");
         this.setIconIndex(0, 0);
     }
 
-    public boolean isReady(int duration, int amplifier)
-    {
+    public boolean isReady(int duration, int amplifier) {
         this.duration = duration;
         return true;
     }
 
     @Override
-    public void performEffect(EntityLivingBase entityLivingBaseIn, int amplifier)
-    {
-        if (entityLivingBaseIn != null)
-        {
+    public void performEffect(EntityLivingBase entityLivingBaseIn, int amplifier) {
+        if (entityLivingBaseIn != null) {
             this.distractEntity(entityLivingBaseIn);
 
-            if (this.duration % 50 == 0)
-            {
-                entityLivingBaseIn.attackEntityFrom(new DamageSource("inebriation").setDamageBypassesArmor(), 1.0F);
+            if (this.duration % 50 == 0) {
+                entityLivingBaseIn.attackEntityFrom(
+                    new DamageSource("inebriation").setDamageBypassesArmor(), 1.0F
+                );
             }
 
-            if (entityLivingBaseIn instanceof EntityPlayer)
-            {
-                if (this.duration >= 500)
-                {
+            if (entityLivingBaseIn instanceof EntityPlayer) {
+                if (this.duration >= 500) {
                     EntityPlayer player = (EntityPlayer) entityLivingBaseIn;
                     IPlayerAether iPlayerAether = AetherAPI.get(player);
 
-                    if (iPlayerAether != null)
-                    {
+                    if (iPlayerAether != null) {
                         PlayerAether playerAether = (PlayerAether) iPlayerAether;
 
-                        if (!player.worldObj.isRemote)
-                        {
+                        if (!player.worldObj.isRemote) {
                             playerAether.setPoisoned();
                             AetherNetwork.sendToAll(new PacketSendPoison(player));
                         }
@@ -80,8 +71,7 @@ public class PotionInebriation extends Potion
         }
     }
 
-    public void distractEntity(EntityLivingBase entityLivingBaseIn)
-    {
+    public void distractEntity(EntityLivingBase entityLivingBaseIn) {
         double gaussian = entityLivingBaseIn.worldObj.rand.nextGaussian();
         double newMotD = 0.1D * gaussian;
         double newRotD = (Math.PI / 4D) * gaussian;
@@ -91,20 +81,34 @@ public class PotionInebriation extends Potion
         entityLivingBaseIn.motionZ += this.motD;
         this.rotD = 0.125D * newRotD + (1.0D - 0.125D) * this.rotD;
 
-        entityLivingBaseIn.rotationYaw = (float)((double)entityLivingBaseIn.rotationYaw + rotD);
-        entityLivingBaseIn.rotationPitch = (float)((double)entityLivingBaseIn.rotationPitch + rotD);
+        entityLivingBaseIn.rotationYaw
+            = (float) ((double) entityLivingBaseIn.rotationYaw + rotD);
+        entityLivingBaseIn.rotationPitch
+            = (float) ((double) entityLivingBaseIn.rotationPitch + rotD);
 
-        if (entityLivingBaseIn.worldObj instanceof WorldServer)
-        {
-            ((WorldServer) entityLivingBaseIn.worldObj).func_147487_a("iconcrack_" + Item.getIdFromItem(Items.dye) + "_" + 1, entityLivingBaseIn.posX, entityLivingBaseIn.boundingBox.minY + entityLivingBaseIn.height * 0.8D, entityLivingBaseIn.posZ, 2, 0.0D, 0.0D, 0.0D, 0.0D);
+        if (entityLivingBaseIn.worldObj instanceof WorldServer) {
+            ((WorldServer) entityLivingBaseIn.worldObj)
+                .func_147487_a(
+                    "iconcrack_" + Item.getIdFromItem(Items.dye) + "_" + 1,
+                    entityLivingBaseIn.posX,
+                    entityLivingBaseIn.boundingBox.minY
+                        + entityLivingBaseIn.height * 0.8D,
+                    entityLivingBaseIn.posZ,
+                    2,
+                    0.0D,
+                    0.0D,
+                    0.0D,
+                    0.0D
+                );
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getStatusIconIndex()
-    {
-        Minecraft.getMinecraft().renderEngine.bindTexture(Aether.locate("textures/gui/inventory/inebriation.png"));
+    public int getStatusIconIndex() {
+        Minecraft.getMinecraft().renderEngine.bindTexture(
+            Aether.locate("textures/gui/inventory/inebriation.png")
+        );
         return super.getStatusIconIndex();
     }
 }

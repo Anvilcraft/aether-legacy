@@ -10,12 +10,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
 public class FlyingCowRenderer extends RenderLiving {
+    private static final ResourceLocation TEXTURE
+        = Aether.locate("textures/entities/flying_cow/flying_cow.png");
 
-    private static final ResourceLocation TEXTURE = Aether.locate("textures/entities/flying_cow/flying_cow.png");
+    private static final ResourceLocation TEXTURE_WINGS
+        = Aether.locate("textures/entities/flying_cow/wings.png");
 
-    private static final ResourceLocation TEXTURE_WINGS = Aether.locate("textures/entities/flying_cow/wings.png");
-
-    private static final ResourceLocation TEXTURE_SADDLE = Aether.locate("textures/entities/flying_cow/saddle.png");
+    private static final ResourceLocation TEXTURE_SADDLE
+        = Aether.locate("textures/entities/flying_cow/saddle.png");
 
     private final FlyingCowWingModel wingModel = new FlyingCowWingModel();
 
@@ -44,7 +46,8 @@ public class FlyingCowRenderer extends RenderLiving {
     }
 
     @Override
-    protected int shouldRenderPass(EntityLivingBase entity, int pass, float particleTicks) {
+    protected int
+    shouldRenderPass(EntityLivingBase entity, int pass, float particleTicks) {
         return this.renderLayers((EntityFlyingCow) entity, pass, particleTicks);
     }
 
@@ -52,5 +55,4 @@ public class FlyingCowRenderer extends RenderLiving {
     protected ResourceLocation getEntityTexture(Entity entity) {
         return TEXTURE;
     }
-
 }

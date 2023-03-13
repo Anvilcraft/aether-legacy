@@ -1,7 +1,9 @@
 package com.gildedgames.the_aether.entities.passive.mountable;
 
 import com.gildedgames.the_aether.AetherConfig;
+import com.gildedgames.the_aether.entities.util.EntitySaddleMount;
 import com.gildedgames.the_aether.items.ItemsAether;
+import com.gildedgames.the_aether.registry.achievements.AchievementsAether;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -11,11 +13,7 @@ import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import com.gildedgames.the_aether.entities.util.EntitySaddleMount;
-import com.gildedgames.the_aether.registry.achievements.AchievementsAether;
-
 public class EntityPhyg extends EntitySaddleMount {
-
     public float wingFold;
 
     public float wingAngle;
@@ -43,7 +41,9 @@ public class EntityPhyg extends EntitySaddleMount {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
         this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, ItemsAether.blueberry, false));
+        this.tasks.addTask(
+            3, new EntityAITempt(this, 1.25D, ItemsAether.blueberry, false)
+        );
         this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(5, new EntityAILookIdle(this));
         this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
@@ -54,12 +54,14 @@ public class EntityPhyg extends EntitySaddleMount {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+            .setBaseValue(0.25D);
     }
 
     @Override
     public boolean getCanSpawnHere() {
-        return this.rand.nextInt(AetherConfig.getPhygSpawnrate()) == 0 && super.getCanSpawnHere();
+        return this.rand.nextInt(AetherConfig.getPhygSpawnrate()) == 0
+            && super.getCanSpawnHere();
     }
 
     @Override
@@ -75,7 +77,8 @@ public class EntityPhyg extends EntitySaddleMount {
         }
 
         if (this.riddenByEntity instanceof EntityPlayer) {
-            ((EntityPlayer) this.riddenByEntity).triggerAchievement(AchievementsAether.flying_pig);
+            ((EntityPlayer) this.riddenByEntity)
+                .triggerAchievement(AchievementsAether.flying_pig);
         }
 
         this.ticks++;
@@ -156,7 +159,8 @@ public class EntityPhyg extends EntitySaddleMount {
     }
 
     @Override
-    protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_) {
+    protected void
+    func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_) {
         this.playSound("mob.pig.step", 0.15F, 1.0F);
     }
 
@@ -180,5 +184,4 @@ public class EntityPhyg extends EntitySaddleMount {
     public EntityAgeable createChild(EntityAgeable entityageable) {
         return new EntityPhyg(this.worldObj);
     }
-
 }

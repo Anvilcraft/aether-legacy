@@ -7,31 +7,29 @@ import net.minecraft.item.ItemRecord;
 import net.minecraft.util.ResourceLocation;
 
 public class ItemAetherDisc extends ItemRecord {
+    public String artistName;
 
-	public String artistName;
+    public String songName;
 
-	public String songName;
+    public ResourceLocation songLocation;
 
-	public ResourceLocation songLocation;
+    public ItemAetherDisc(String s, String artist) {
+        super(s);
 
-	public ItemAetherDisc(String s, String artist) {
-		super(s);
+        this.artistName = artist;
+        this.songName = s;
+        this.songLocation = Aether.locate("records." + s);
 
-		this.artistName = artist;
-		this.songName = s;
-		this.songLocation = Aether.locate("records." + s);
+        this.setCreativeTab(AetherCreativeTabs.misc);
+    }
 
-		this.setCreativeTab(AetherCreativeTabs.misc);
-	}
+    @Override
+    public String getRecordNameLocal() {
+        return this.artistName + " - " + I18n.format("item.tooltip." + this.songName);
+    }
 
-	@Override
-	public String getRecordNameLocal() {
-		return this.artistName + " - " + I18n.format("item.tooltip." + this.songName);
-	}
-
-	@Override
-	public ResourceLocation getRecordResource(String name) {
-		return this.songLocation;
-	}
-
+    @Override
+    public ResourceLocation getRecordResource(String name) {
+        return this.songLocation;
+    }
 }

@@ -6,25 +6,31 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public class LightningKnifeRenderer extends Render {
-
     public LightningKnifeRenderer() {
         super();
     }
 
-    public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9) {
+    public void
+    doRender(Entity var1, double var2, double var4, double var6, float var8, float var9) {
         this.doRenderKnife((EntityLightningKnife) var1, var2, var4, var6, var8, var9);
     }
 
-    public void doRenderKnife(EntityLightningKnife arr, double d, double d1, double d2, float yaw, float time) {
+    public void doRenderKnife(
+        EntityLightningKnife arr, double d, double d1, double d2, float yaw, float time
+    ) {
         GL11.glPushMatrix();
         GL11.glTranslatef((float) d, (float) d1, (float) d2);
         GL11.glRotatef(yaw, 0F, 1.0F, 0F);
-        GL11.glRotatef(-(arr.prevRotationPitch + (arr.rotationPitch - arr.prevRotationPitch) * time), 1F, 0F, 0F);
+        GL11.glRotatef(
+            -(arr.prevRotationPitch + (arr.rotationPitch - arr.prevRotationPitch) * time),
+            1F,
+            0F,
+            0F
+        );
         GL11.glRotatef(45f, 0.0F, 1.0F, 0.0F);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glTranslatef(-0.5F, 0.0F, -0.5F);
@@ -124,5 +130,4 @@ public class LightningKnifeRenderer extends Render {
     protected ResourceLocation getEntityTexture(Entity entity) {
         return null;
     }
-
 }

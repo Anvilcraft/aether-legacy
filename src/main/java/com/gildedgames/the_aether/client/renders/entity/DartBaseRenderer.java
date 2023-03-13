@@ -2,37 +2,46 @@ package com.gildedgames.the_aether.client.renders.entity;
 
 import com.gildedgames.the_aether.Aether;
 import com.gildedgames.the_aether.entities.projectile.EntityPoisonNeedle;
+import com.gildedgames.the_aether.entities.projectile.darts.EntityDartBase;
+import com.gildedgames.the_aether.entities.projectile.darts.EntityDartEnchanted;
+import com.gildedgames.the_aether.entities.projectile.darts.EntityDartGolden;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.gildedgames.the_aether.entities.projectile.darts.EntityDartBase;
-import com.gildedgames.the_aether.entities.projectile.darts.EntityDartEnchanted;
-import com.gildedgames.the_aether.entities.projectile.darts.EntityDartGolden;
-
 public class DartBaseRenderer extends Render {
-
     public DartBaseRenderer() {
         super();
 
         this.shadowSize = 0.0F;
     }
 
-    public void renderDart(EntityDartBase dart, double d, double d1, double d2, float f, float f1) {
-        if (dart.isInvisible() && dart.prevRotationYaw == 0.0F || dart.prevRotationPitch == 0.0F) {
+    public void
+    renderDart(EntityDartBase dart, double d, double d1, double d2, float f, float f1) {
+        if (dart.isInvisible() && dart.prevRotationYaw == 0.0F
+            || dart.prevRotationPitch == 0.0F) {
             return;
         }
 
         this.bindEntityTexture(dart);
         GL11.glPushMatrix();
         GL11.glTranslatef((float) d, (float) d1, (float) d2);
-        GL11.glRotatef(dart.prevRotationYaw + (dart.rotationYaw - dart.prevRotationYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(dart.prevRotationPitch + (dart.rotationPitch - dart.prevRotationPitch) * f1, 0.0F, 0.0F, 1.0F);
+        GL11.glRotatef(
+            dart.prevRotationYaw + (dart.rotationYaw - dart.prevRotationYaw) * f1 - 90.0F,
+            0.0F,
+            1.0F,
+            0.0F
+        );
+        GL11.glRotatef(
+            dart.prevRotationPitch + (dart.rotationPitch - dart.prevRotationPitch) * f1,
+            0.0F,
+            0.0F,
+            1.0F
+        );
         Tessellator tessellator = Tessellator.instance;
 
         byte i = 1;
@@ -91,15 +100,20 @@ public class DartBaseRenderer extends Render {
     }
 
     @Override
-    public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
+    public void
+    doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
         this.renderDart((EntityDartBase) entity, d, d1, d2, f, f1);
     }
 
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
-        String base = entity instanceof EntityDartGolden ? "golden" : entity instanceof EntityDartEnchanted ? "enchanted" : "poison";
+        String base = entity instanceof EntityDartGolden ? "golden"
+            : entity instanceof EntityDartEnchanted      ? "enchanted"
+                                                         : "poison";
 
-        return Aether.locate("textures/entities/projectile/dart/" + base + (entity instanceof EntityPoisonNeedle ? "_needle" : "_dart") + ".png");
+        return Aether.locate(
+            "textures/entities/projectile/dart/" + base
+            + (entity instanceof EntityPoisonNeedle ? "_needle" : "_dart") + ".png"
+        );
     }
-
 }

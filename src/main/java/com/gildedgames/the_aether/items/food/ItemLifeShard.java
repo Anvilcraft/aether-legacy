@@ -13,44 +13,43 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemLifeShard extends Item {
+    public ItemLifeShard() {
+        super();
+        this.setMaxStackSize(1);
+        this.setCreativeTab(AetherCreativeTabs.misc);
+    }
 
-	public ItemLifeShard() {
-		super();
-		this.setMaxStackSize(1);
-		this.setCreativeTab(AetherCreativeTabs.misc);
-	}
+    @Override
+    public EnumRarity getRarity(ItemStack stack) {
+        return ItemsAether.aether_loot;
+    }
 
-	@Override
-	public EnumRarity getRarity(ItemStack stack) {
-		return ItemsAether.aether_loot;
-	}
+    @Override
+    public ItemStack
+    onItemRightClick(ItemStack stack, World worldIn, EntityPlayer player) {
+        PlayerAether playerAether = PlayerAether.get(player);
+        ItemStack heldItem = player.getHeldItem();
 
-	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World worldIn, EntityPlayer player) {
-		PlayerAether playerAether = PlayerAether.get(player);
-		ItemStack heldItem = player.getHeldItem();
+        if (!worldIn.isRemote) {
+            playerAether.updateShardCount(0);
 
-		if (!worldIn.isRemote)
-		{
-			playerAether.updateShardCount(0);
+            if (playerAether.getShardsUsed() < playerAether.getMaxShardCount()) {
+                playerAether.updateShardCount(1);
+                --heldItem.stackSize;
+            }
 
-			if (playerAether.getShardsUsed() < playerAether.getMaxShardCount())
-			{
-				playerAether.updateShardCount(1);
-				--heldItem.stackSize;
-			}
+            return heldItem;
+        } else {
+            if (playerAether.getShardsUsed() >= playerAether.getMaxShardCount()) {
+                Aether.proxy.sendMessage(
+                    player,
+                    StatCollector.translateToLocalFormatted(
+                        "gui.item.life_shard.maxshards", playerAether.getMaxShardCount()
+                    )
+                );
+            }
+        }
 
-			return heldItem;
-		}
-		else
-		{
-			if (playerAether.getShardsUsed() >= playerAether.getMaxShardCount())
-			{
-				Aether.proxy.sendMessage(player, StatCollector.translateToLocalFormatted("gui.item.life_shard.maxshards", playerAether.getMaxShardCount()));
-			}
-		}
-
-		return heldItem;
-	}
-
+        return heldItem;
+    }
 }

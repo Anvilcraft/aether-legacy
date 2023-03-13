@@ -4,7 +4,6 @@ import com.gildedgames.the_aether.entities.passive.mountable.EntityAerbunny;
 import net.minecraft.entity.ai.EntityAIBase;
 
 public class AerbunnyAIHop extends EntityAIBase {
-
     private EntityAerbunny aerbunny;
 
     public AerbunnyAIHop(EntityAerbunny aerbunny) {
@@ -13,7 +12,8 @@ public class AerbunnyAIHop extends EntityAIBase {
     }
 
     public boolean shouldExecute() {
-        return this.aerbunny.motionZ > 0.0D || this.aerbunny.motionX > 0.0D || this.aerbunny.onGround;
+        return this.aerbunny.motionZ > 0.0D || this.aerbunny.motionX > 0.0D
+            || this.aerbunny.onGround;
     }
 
     public void updateTask() {
@@ -21,5 +21,4 @@ public class AerbunnyAIHop extends EntityAIBase {
             this.aerbunny.getJumpHelper().setJumping();
         }
     }
-
 }

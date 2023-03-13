@@ -4,7 +4,6 @@ import com.gildedgames.the_aether.entities.bosses.valkyrie_queen.EntityValkyrieQ
 import net.minecraft.entity.ai.EntityAIWander;
 
 public class ValkyrieQueenAIWander extends EntityAIWander {
-
     private EntityValkyrieQueen theQueen;
 
     public ValkyrieQueenAIWander(EntityValkyrieQueen creatureIn, double speedIn) {
@@ -17,5 +16,4 @@ public class ValkyrieQueenAIWander extends EntityAIWander {
     public boolean shouldExecute() {
         return super.shouldExecute() && this.theQueen.isBossReady();
     }
-
 }

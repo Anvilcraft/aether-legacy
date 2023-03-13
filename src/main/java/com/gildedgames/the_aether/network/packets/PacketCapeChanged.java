@@ -4,15 +4,12 @@ import com.gildedgames.the_aether.player.PlayerAether;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class PacketCapeChanged extends AetherPacket<PacketCapeChanged>
-{
+public class PacketCapeChanged extends AetherPacket<PacketCapeChanged> {
     public int entityID;
 
     public boolean renderCape;
 
-    public PacketCapeChanged() {
-
-    }
+    public PacketCapeChanged() {}
 
     public PacketCapeChanged(int entityID, boolean info) {
         this.entityID = entityID;
@@ -34,7 +31,8 @@ public class PacketCapeChanged extends AetherPacket<PacketCapeChanged>
     @Override
     public void handleClient(PacketCapeChanged message, EntityPlayer player) {
         if (player != null && player.worldObj != null) {
-            EntityPlayer parent = (EntityPlayer) player.worldObj.getEntityByID(message.entityID);
+            EntityPlayer parent
+                = (EntityPlayer) player.worldObj.getEntityByID(message.entityID);
 
             if (parent != null) {
                 PlayerAether instance = PlayerAether.get(parent);
@@ -47,7 +45,8 @@ public class PacketCapeChanged extends AetherPacket<PacketCapeChanged>
     @Override
     public void handleServer(PacketCapeChanged message, EntityPlayer player) {
         if (player != null && player.worldObj != null && !player.worldObj.isRemote) {
-            EntityPlayer parent = (EntityPlayer) player.worldObj.getEntityByID(message.entityID);
+            EntityPlayer parent
+                = (EntityPlayer) player.worldObj.getEntityByID(message.entityID);
 
             if (parent != null) {
                 PlayerAether instance = PlayerAether.get(parent);

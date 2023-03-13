@@ -4,17 +4,15 @@ import com.gildedgames.the_aether.api.moa.AetherMoaType;
 import net.minecraft.tileentity.TileEntity;
 
 public class MoaHatchEvent extends MoaEvent {
+    private TileEntity incubator;
 
-	private TileEntity incubator;
+    public MoaHatchEvent(AetherMoaType moaType, TileEntity incubator) {
+        super(moaType);
 
-	public MoaHatchEvent(AetherMoaType moaType, TileEntity incubator) {
-		super(moaType);
+        this.incubator = incubator;
+    }
 
-		this.incubator = incubator;
-	}
-
-	public TileEntity getTileEntity() {
-		return this.incubator;
-	}
-
+    public TileEntity getTileEntity() {
+        return this.incubator;
+    }
 }

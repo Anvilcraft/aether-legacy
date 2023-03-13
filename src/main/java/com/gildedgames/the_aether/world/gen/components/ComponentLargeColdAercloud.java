@@ -2,114 +2,114 @@ package com.gildedgames.the_aether.world.gen.components;
 
 import java.util.Random;
 
+import com.gildedgames.the_aether.blocks.BlocksAether;
 import com.gildedgames.the_aether.world.gen.AetherStructure;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
-import com.gildedgames.the_aether.blocks.BlocksAether;
-
 public class ComponentLargeColdAercloud extends AetherStructure {
+    private NBTTagCompound data = new NBTTagCompound();
 
-	private NBTTagCompound data = new NBTTagCompound();
+    private int xTendency, zTendency;
 
-	private int xTendency, zTendency;
+    public ComponentLargeColdAercloud() {}
 
-	public ComponentLargeColdAercloud() {
+    public ComponentLargeColdAercloud(Random random, int chunkX, int chunkY, int chunkZ) {
+        this.coordBaseMode = 0;
 
-	}
+        this.xTendency = random.nextInt(3) - 1;
+        this.zTendency = random.nextInt(3) - 1;
 
-	public ComponentLargeColdAercloud(Random random, int chunkX, int chunkY, int chunkZ) {
-		this.coordBaseMode = 0;
+        this.boundingBox = new StructureBoundingBox(
+            chunkX, 0, chunkZ, chunkX + 100, 255, chunkZ + 100
+        );
+    }
 
-		this.xTendency = random.nextInt(3) - 1;
-		this.zTendency = random.nextInt(3) - 1;
+    @Override
+    public boolean generate() {
+        this.replaceAir = true;
 
-		this.boundingBox = new StructureBoundingBox(chunkX, 0, chunkZ, chunkX + 100, 255, chunkZ + 100);
-	}
+        if (!this.data.hasKey("initialized")) {
+            NBTTagCompound icd;
 
-	@Override
-	public boolean generate() {
-		this.replaceAir = true;
+            for (int n = 0; n < 64; ++n) {
+                icd = new NBTTagCompound();
 
-		if (!this.data.hasKey("initialized")) {
-			NBTTagCompound icd;
+                byte xOffset = (byte) (this.random.nextInt(3) - 1);
+                byte yOffset = (byte) (this.random.nextInt(3) - 1);
+                byte zOffset = (byte) (this.random.nextInt(3) - 1);
 
-			for (int n = 0; n < 64; ++n) {
-				icd = new NBTTagCompound();
+                icd.setByte("xOffset", xOffset);
 
-				byte xOffset = (byte) (this.random.nextInt(3) - 1);
-				byte yOffset = (byte) (this.random.nextInt(3) - 1);
-				byte zOffset = (byte) (this.random.nextInt(3) - 1);
+                if (this.random.nextInt(10) == 0) {
+                    icd.setByte("yOffset", yOffset);
+                }
 
-				icd.setByte("xOffset", xOffset);
+                icd.setByte("zOffset", zOffset);
 
-				if (this.random.nextInt(10) == 0) {
-					icd.setByte("yOffset", yOffset);
-				}
+                byte xMax = (byte) (this.random.nextInt(4) + 9);
+                byte yMax = (byte) (this.random.nextInt(1) + 2);
+                byte zMax = (byte) (this.random.nextInt(4) + 9);
 
-				icd.setByte("zOffset", zOffset);
+                icd.setByte("xMax", xMax);
+                icd.setByte("yMax", yMax);
+                icd.setByte("zMax", zMax);
+                icd.setByte("shapeOffset", (byte) this.random.nextInt(2));
 
-				byte xMax = (byte) (this.random.nextInt(4) + 9);
-				byte yMax = (byte) (this.random.nextInt(1) + 2);
-				byte zMax = (byte) (this.random.nextInt(4) + 9);
+                this.data.setTag("ICD_" + n, icd);
+            }
 
-				icd.setByte("xMax", xMax);
-				icd.setByte("yMax", yMax);
-				icd.setByte("zMax", zMax);
-				icd.setByte("shapeOffset", (byte) this.random.nextInt(2));
+            this.data.setByte("initialized", (byte) 1);
+        }
 
-				this.data.setTag("ICD_" + n, icd);
-			}
+        int x = 0, y = 0, z = 0;
+        NBTTagCompound icd;
 
-			this.data.setByte("initialized", (byte) 1);
-		}
+        this.setStructureOffset(50, 4, 100);
 
-		int x = 0, y = 0, z = 0;
-		NBTTagCompound icd;
+        for (int n = 0; n < 64; ++n) {
+            icd = this.data.getCompoundTag("ICD_" + n);
 
-		this.setStructureOffset(50, 4, 100);
+            x += icd.getByte("xOffset") + this.xTendency;
 
-		for (int n = 0; n < 64; ++n) {
-			icd = this.data.getCompoundTag("ICD_" + n);
+            if (icd.hasKey("yOffset")) {
+                y += icd.getByte("yOffset");
+            }
 
-			x += icd.getByte("xOffset") + this.xTendency;
+            z += icd.getByte("zOffset") + this.zTendency;
 
-			if (icd.hasKey("yOffset")) {
-				y += icd.getByte("yOffset");
-			}
+            int xMax = icd.getByte("xMax");
+            int yMax = icd.getByte("yMax");
+            int zMax = icd.getByte("zMax");
+            int shapeOffset = icd.getByte("shapeOffset");
 
-			z += icd.getByte("zOffset") + this.zTendency;
+            for (int x1 = x; x1 < x + xMax; ++x1) {
+                for (int y1 = y; y1 < y + yMax; ++y1) {
+                    for (int z1 = z; z1 < z + zMax; ++z1) {
+                        if (this.getBlockStateWithOffset(x1, y1, z1) == Blocks.air) {
+                            if (Math.abs(x1 - x) + Math.abs(y1 - y) + Math.abs(z1 - z)
+                                < 12 + shapeOffset) {
+                                this.setBlockWithOffset(
+                                    x1, y1, z1, BlocksAether.aercloud, 0
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-			int xMax = icd.getByte("xMax");
-			int yMax = icd.getByte("yMax");
-			int zMax = icd.getByte("zMax");
-			int shapeOffset = icd.getByte("shapeOffset");
+        return true;
+    }
 
-			for (int x1 = x; x1 < x + xMax; ++x1) {
-				for (int y1 = y; y1 < y + yMax; ++y1) {
-					for (int z1 = z; z1 < z + zMax; ++z1) {
-						if (this.getBlockStateWithOffset(x1, y1, z1) == Blocks.air) {
-							if (Math.abs(x1 - x) + Math.abs(y1 - y) + Math.abs(z1 - z) < 12 + shapeOffset) {
-								this.setBlockWithOffset(x1, y1, z1, BlocksAether.aercloud, 0);
-							}
-						}
-					}
-				}
-			}
-		}
+    @Override
+    protected void func_143012_a(NBTTagCompound tagCompound) {
+        tagCompound.setTag("cloudData", this.data);
+    }
 
-		return true;
-	}
-
-	@Override
-	protected void func_143012_a(NBTTagCompound tagCompound) {
-		tagCompound.setTag("cloudData", this.data);
-	}
-
-	@Override
-	protected void func_143011_b(NBTTagCompound tagCompound) {
-		this.data = tagCompound.getCompoundTag("cloudData");
-	}
-
+    @Override
+    protected void func_143011_b(NBTTagCompound tagCompound) {
+        this.data = tagCompound.getCompoundTag("cloudData");
+    }
 }

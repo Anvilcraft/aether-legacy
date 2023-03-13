@@ -9,8 +9,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
 public class AechorPlantRenderer extends RenderLiving {
-
-    public static final ResourceLocation TEXTURE = Aether.locate("textures/entities/aechor_plant/aechor_plant.png");
+    public static final ResourceLocation TEXTURE
+        = Aether.locate("textures/entities/aechor_plant/aechor_plant.png");
 
     public AechorPlantModel mode;
 
@@ -44,7 +44,8 @@ public class AechorPlantRenderer extends RenderLiving {
         this.shadowSize = f2 - 0.25F + f1;
     }
 
-    protected int doAechorPlantRender(EntityAechorPlant entityaechorplant, int i, float f) {
+    protected int
+    doAechorPlantRender(EntityAechorPlant entityaechorplant, int i, float f) {
         if (i != 0) {
             return -1;
         } else {
@@ -61,5 +62,4 @@ public class AechorPlantRenderer extends RenderLiving {
     protected ResourceLocation getEntityTexture(Entity entity) {
         return TEXTURE;
     }
-
 }

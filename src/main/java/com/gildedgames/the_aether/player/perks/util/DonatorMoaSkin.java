@@ -3,7 +3,6 @@ package com.gildedgames.the_aether.player.perks.util;
 import io.netty.buffer.ByteBuf;
 
 public class DonatorMoaSkin {
-
     private boolean shouldDefualt;
 
     private int wingColor;
@@ -101,5 +100,4 @@ public class DonatorMoaSkin {
     public boolean shouldUseDefualt() {
         return this.shouldDefualt;
     }
-
 }

@@ -7,24 +7,42 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public class PhoenixArrowRenderer extends Render {
-
     public PhoenixArrowRenderer() {
         super();
-
     }
 
-    public void renderArrow(EntityPhoenixArrow var1, double var2, double var4, double var6, float var8, float var9) {
+    public void renderArrow(
+        EntityPhoenixArrow var1,
+        double var2,
+        double var4,
+        double var6,
+        float var8,
+        float var9
+    ) {
         if (var1.prevRotationYaw != 0.0F || var1.prevRotationPitch != 0.0F) {
-            this.bindTexture(Aether.locate("textures/entities/projectile/flaming_arrow.png"));
+            this.bindTexture(
+                Aether.locate("textures/entities/projectile/flaming_arrow.png")
+            );
             GL11.glPushMatrix();
             GL11.glTranslatef((float) var2, (float) var4, (float) var6);
-            GL11.glRotatef(var1.prevRotationYaw + (var1.rotationYaw - var1.prevRotationYaw) * var9 - 90.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(var1.prevRotationPitch + (var1.rotationPitch - var1.prevRotationPitch) * var9, 0.0F, 0.0F, 1.0F);
+            GL11.glRotatef(
+                var1.prevRotationYaw + (var1.rotationYaw - var1.prevRotationYaw) * var9
+                    - 90.0F,
+                0.0F,
+                1.0F,
+                0.0F
+            );
+            GL11.glRotatef(
+                var1.prevRotationPitch
+                    + (var1.rotationPitch - var1.prevRotationPitch) * var9,
+                0.0F,
+                0.0F,
+                1.0F
+            );
             Tessellator tessellator = Tessellator.instance;
             byte b0 = 0;
             float f2 = 0.0F;
@@ -79,7 +97,9 @@ public class PhoenixArrowRenderer extends Render {
     }
 
     @Override
-    public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(
+        Entity entity, double x, double y, double z, float entityYaw, float partialTicks
+    ) {
         this.renderArrow((EntityPhoenixArrow) entity, x, y, z, entityYaw, partialTicks);
     }
 
@@ -87,5 +107,4 @@ public class PhoenixArrowRenderer extends Render {
     protected ResourceLocation getEntityTexture(Entity entity) {
         return Aether.locate("textures/entities/projectile/flaming_arrow.png");
     }
-
 }

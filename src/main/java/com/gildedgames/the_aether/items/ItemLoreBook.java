@@ -10,22 +10,28 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ItemLoreBook extends Item {
+    public ItemLoreBook() {
+        this.setMaxStackSize(1);
+        this.setCreativeTab(AetherCreativeTabs.misc);
+    }
 
-	public ItemLoreBook() {
-		this.setMaxStackSize(1);
-		this.setCreativeTab(AetherCreativeTabs.misc);
-	}
+    @Override
+    public EnumRarity getRarity(ItemStack stack) {
+        return ItemsAether.aether_loot;
+    }
 
-	@Override
-	public EnumRarity getRarity(ItemStack stack) {
-		return ItemsAether.aether_loot;
-	}
+    @Override
+    public ItemStack
+    onItemRightClick(ItemStack stackIn, World worldIn, EntityPlayer playerIn) {
+        playerIn.openGui(
+            Aether.instance,
+            AetherGuiHandler.lore,
+            worldIn,
+            (int) playerIn.posX,
+            (int) playerIn.posY,
+            (int) playerIn.posZ
+        );
 
-	@Override
-	public ItemStack onItemRightClick(ItemStack stackIn, World worldIn, EntityPlayer playerIn) {
-		playerIn.openGui(Aether.instance, AetherGuiHandler.lore, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
-
-		return playerIn.getHeldItem();
-	}
-
+        return playerIn.getHeldItem();
+    }
 }

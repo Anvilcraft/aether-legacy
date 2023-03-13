@@ -1,12 +1,10 @@
 package com.gildedgames.the_aether.entities.hostile.swet;
 
 public enum EnumSwetType {
+    BLUE(),
+    GOLDEN();
 
-    BLUE(), GOLDEN();
-
-    EnumSwetType() {
-
-    }
+    EnumSwetType() {}
 
     public int getId() {
         return this.ordinal();

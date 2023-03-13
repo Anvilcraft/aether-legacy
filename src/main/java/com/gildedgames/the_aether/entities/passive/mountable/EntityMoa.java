@@ -3,6 +3,9 @@ package com.gildedgames.the_aether.entities.passive.mountable;
 import com.gildedgames.the_aether.AetherConfig;
 import com.gildedgames.the_aether.api.AetherAPI;
 import com.gildedgames.the_aether.api.moa.AetherMoaType;
+import com.gildedgames.the_aether.entities.util.EntitySaddleMount;
+import com.gildedgames.the_aether.items.ItemMoaEgg;
+import com.gildedgames.the_aether.items.ItemsAether;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -19,15 +22,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-import com.gildedgames.the_aether.entities.util.EntitySaddleMount;
-import com.gildedgames.the_aether.items.ItemMoaEgg;
-import com.gildedgames.the_aether.items.ItemsAether;
-
 public class EntityMoa extends EntitySaddleMount {
-
     public float wingRotation, destPos, prevDestPos, prevWingRotation;
 
-    protected int ticksOffGround, ticksUntilFlap, secsUntilFlying, secsUntilWalking, secsUntilHungry, secsUntilEgg;
+    protected int ticksOffGround, ticksUntilFlap, secsUntilFlying, secsUntilWalking,
+        secsUntilHungry, secsUntilEgg;
 
     public EntityMoa(World world) {
         super(world);
@@ -73,13 +72,16 @@ public class EntityMoa extends EntitySaddleMount {
 
         AetherMoaType moaType = AetherAPI.instance().getRandomMoaType();
 
-        this.dataWatcher.addObject(20, new Short((short) AetherAPI.instance().getMoaTypeId(moaType)));
-        this.dataWatcher.addObject(21, new Byte((byte) moaType.getMoaProperties().getMaxJumps()));
+        this.dataWatcher.addObject(
+            20, new Short((short) AetherAPI.instance().getMoaTypeId(moaType))
+        );
+        this.dataWatcher.addObject(
+            21, new Byte((byte) moaType.getMoaProperties().getMaxJumps())
+        );
         this.dataWatcher.addObject(22, new Byte((byte) 0));
         this.dataWatcher.addObject(23, new Byte((byte) 0));
         this.dataWatcher.addObject(24, new Byte((byte) 0));
         this.dataWatcher.addObject(25, new Byte((byte) 0));
-
     }
 
     @Override
@@ -97,7 +99,8 @@ public class EntityMoa extends EntitySaddleMount {
 
     @Override
     public boolean getCanSpawnHere() {
-        return this.rand.nextInt(AetherConfig.getMoaSpawnrate()) == 0 && super.getCanSpawnHere();
+        return this.rand.nextInt(AetherConfig.getMoaSpawnrate()) == 0
+            && super.getCanSpawnHere();
     }
 
     public boolean isSitting() {
@@ -146,7 +149,6 @@ public class EntityMoa extends EntitySaddleMount {
         return (int) this.dataWatcher.getWatchableObjectByte(21);
     }
 
-
     public void setRemainingJumps(int jumps) {
         this.dataWatcher.updateObject(21, (byte) jumps);
     }
@@ -162,8 +164,12 @@ public class EntityMoa extends EntitySaddleMount {
     }
 
     public void setMoaType(AetherMoaType type) {
-        this.dataWatcher.updateObject(20, new Short((short) AetherAPI.instance().getMoaTypeId(type)));
-        this.dataWatcher.updateObject(21, new Byte((byte) type.getMoaProperties().getMaxJumps()));
+        this.dataWatcher.updateObject(
+            20, new Short((short) AetherAPI.instance().getMoaTypeId(type))
+        );
+        this.dataWatcher.updateObject(
+            21, new Byte((byte) type.getMoaProperties().getMaxJumps())
+        );
     }
 
     @Override
@@ -191,7 +197,11 @@ public class EntityMoa extends EntitySaddleMount {
                     this.secsUntilEgg--;
                 }
             } else {
-                this.playSound("mob.chicken.plop", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+                this.playSound(
+                    "mob.chicken.plop",
+                    1.0F,
+                    (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F
+                );
                 this.entityDropItem(ItemMoaEgg.getStackFromType(this.getMoaType()), 0);
 
                 this.secsUntilEgg = this.getRandomEggTime();
@@ -212,7 +222,13 @@ public class EntityMoa extends EntitySaddleMount {
     public void updateWingRotation() {
         if (!this.onGround) {
             if (this.ticksUntilFlap == 0) {
-                this.worldObj.playSoundAtEntity(this, "mob.bat.takeoff", 0.15F, MathHelper.clamp_float(this.rand.nextFloat(), 0.7f, 1.0f) + MathHelper.clamp_float(this.rand.nextFloat(), 0f, 0.3f));
+                this.worldObj.playSoundAtEntity(
+                    this,
+                    "mob.bat.takeoff",
+                    0.15F,
+                    MathHelper.clamp_float(this.rand.nextFloat(), 0.7f, 1.0f)
+                        + MathHelper.clamp_float(this.rand.nextFloat(), 0f, 0.3f)
+                );
 
                 this.ticksUntilFlap = 8;
             } else {
@@ -242,7 +258,13 @@ public class EntityMoa extends EntitySaddleMount {
         if (this.getRemainingJumps() > 0 && this.motionY < 0.0D) {
             if (!this.isOnGround()) {
                 this.motionY = 0.7D;
-                this.worldObj.playSoundAtEntity(this, "mob.bat.takeoff", 0.15F, MathHelper.clamp_float(this.rand.nextFloat(), 0.7f, 1.0f) + MathHelper.clamp_float(this.rand.nextFloat(), 0f, 0.3f));
+                this.worldObj.playSoundAtEntity(
+                    this,
+                    "mob.bat.takeoff",
+                    0.15F,
+                    MathHelper.clamp_float(this.rand.nextFloat(), 0.7f, 1.0f)
+                        + MathHelper.clamp_float(this.rand.nextFloat(), 0f, 0.3f)
+                );
 
                 if (!this.worldObj.isRemote) {
                     this.setRemainingJumps(this.getRemainingJumps() - 1);
@@ -344,7 +366,8 @@ public class EntityMoa extends EntitySaddleMount {
     }
 
     @Override
-    protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_) {
+    protected void
+    func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_) {
         this.playSound("mob.pig.step", 0.15F, 1.0F);
     }
 
@@ -386,5 +409,4 @@ public class EntityMoa extends EntitySaddleMount {
     public EntityAgeable createChild(EntityAgeable matingAnimal) {
         return new EntityMoa(this.worldObj, this.getMoaType());
     }
-
 }

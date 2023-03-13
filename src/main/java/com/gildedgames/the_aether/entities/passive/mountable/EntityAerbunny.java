@@ -1,7 +1,10 @@
 package com.gildedgames.the_aether.entities.passive.mountable;
 
 import com.gildedgames.the_aether.AetherConfig;
+import com.gildedgames.the_aether.entities.ai.aerbunny.AerbunnyAIHop;
 import com.gildedgames.the_aether.entities.passive.EntityAetherAnimal;
+import com.gildedgames.the_aether.player.PlayerAether;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -14,13 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-import com.gildedgames.the_aether.entities.ai.aerbunny.AerbunnyAIHop;
-import com.gildedgames.the_aether.player.PlayerAether;
-
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-
-public class EntityAerbunny extends EntityAetherAnimal implements IEntityAdditionalSpawnData {
-
+public class EntityAerbunny
+    extends EntityAetherAnimal implements IEntityAdditionalSpawnData {
     private int puff;
 
     public int puffiness;
@@ -44,7 +42,8 @@ public class EntityAerbunny extends EntityAetherAnimal implements IEntityAdditio
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+            .setBaseValue(0.25D);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(5.0D);
         this.setHealth(5.0F);
     }
@@ -61,7 +60,8 @@ public class EntityAerbunny extends EntityAetherAnimal implements IEntityAdditio
 
     @Override
     public boolean getCanSpawnHere() {
-        return this.rand.nextInt(AetherConfig.getAerbunnySpawnrate()) == 0 && super.getCanSpawnHere();
+        return this.rand.nextInt(AetherConfig.getAerbunnySpawnrate()) == 0
+            && super.getCanSpawnHere();
     }
 
     @Override
@@ -79,7 +79,17 @@ public class EntityAerbunny extends EntityAetherAnimal implements IEntityAdditio
             double d1 = this.rand.nextGaussian() * 0.02D;
             double d2 = this.rand.nextGaussian() * 0.02D;
             double d3 = 10.0D;
-            this.worldObj.spawnParticle("explode", this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width - d0 * d3, this.posY + (double) (this.rand.nextFloat() * this.height) - d1 * d3, this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width - d2 * d3, d0, d1, d2);
+            this.worldObj.spawnParticle(
+                "explode",
+                this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F)
+                    - (double) this.width - d0 * d3,
+                this.posY + (double) (this.rand.nextFloat() * this.height) - d1 * d3,
+                this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F)
+                    - (double) this.width - d2 * d3,
+                d0,
+                d1,
+                d2
+            );
         }
     }
 
@@ -126,7 +136,8 @@ public class EntityAerbunny extends EntityAetherAnimal implements IEntityAdditio
             this.jump();
         }
 
-        if (this.isJumping && !this.isInWater() && !this.handleLavaMovement() && !this.onGround && this.jumpTicks == 0 && this.jumps > 0) {
+        if (this.isJumping && !this.isInWater() && !this.handleLavaMovement()
+            && !this.onGround && this.jumpTicks == 0 && this.jumps > 0) {
             if (this.moveForward != 0.0F) {
                 //this.jump();
             }
@@ -147,7 +158,15 @@ public class EntityAerbunny extends EntityAetherAnimal implements IEntityAdditio
                     double d5 = (float) this.posY + this.height + 0.125F;
                     double d8 = (float) this.posZ + this.rand.nextFloat() * 0.25F;
                     float f1 = this.rand.nextFloat() * 360F;
-                    this.worldObj.spawnParticle("smoke", -Math.sin(0.01745329F * f1) * 0.75D, d5 - 0.25D, Math.cos(0.01745329F * f1) * 0.75D, d2, 0.125D, d8);
+                    this.worldObj.spawnParticle(
+                        "smoke",
+                        -Math.sin(0.01745329F * f1) * 0.75D,
+                        d5 - 0.25D,
+                        Math.cos(0.01745329F * f1) * 0.75D,
+                        d2,
+                        0.125D,
+                        d8
+                    );
                 }
             }
 
@@ -178,8 +197,7 @@ public class EntityAerbunny extends EntityAetherAnimal implements IEntityAdditio
     }
 
     @Override
-    public void fall(float distance) {
-    }
+    public void fall(float distance) {}
 
     @Override
     public boolean isEntityInsideOpaqueBlock() {
@@ -198,7 +216,15 @@ public class EntityAerbunny extends EntityAetherAnimal implements IEntityAdditio
         if (itemstack != null && (itemstack.getItem() == Items.name_tag)) {
             return super.interact(entityplayer);
         } else {
-            this.worldObj.playSound(this.posX, this.posY, this.posZ, "aether_legacy:aemob.aerbunny.lift", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F, false);
+            this.worldObj.playSound(
+                this.posX,
+                this.posY,
+                this.posZ,
+                "aether_legacy:aemob.aerbunny.lift",
+                1.0F,
+                (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F,
+                false
+            );
 
             if (this.isRiding()) {
                 this.mountEntity(null);
@@ -217,7 +243,9 @@ public class EntityAerbunny extends EntityAetherAnimal implements IEntityAdditio
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float damage) {
-        return source.getEntity() == this.ridingEntity ? false : super.attackEntityFrom(source, damage);
+        return source.getEntity() == this.ridingEntity
+            ? false
+            : super.attackEntityFrom(source, damage);
     }
 
     @Override
@@ -249,5 +277,4 @@ public class EntityAerbunny extends EntityAetherAnimal implements IEntityAdditio
     public void readSpawnData(ByteBuf buffer) {
         this.setPuffiness(buffer.readInt());
     }
-
 }

@@ -13,26 +13,24 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
 public class ItemValkyrieLance extends ItemSword {
+    public ItemValkyrieLance() {
+        super(ToolMaterial.EMERALD);
 
-	public ItemValkyrieLance() {
-		super(ToolMaterial.EMERALD);
+        this.setCreativeTab(AetherCreativeTabs.weapons);
+    }
 
-		this.setCreativeTab(AetherCreativeTabs.weapons);
-	}
+    @Override
+    public EnumAction getItemUseAction(ItemStack stack) {
+        return EnumAction.none;
+    }
 
-	@Override
-	public EnumAction getItemUseAction(ItemStack stack) {
-		return EnumAction.none;
-	}
+    @Override
+    public EnumRarity getRarity(ItemStack stack) {
+        return ItemsAether.aether_loot;
+    }
 
-	@Override
-	public EnumRarity getRarity(ItemStack stack) {
-		return ItemsAether.aether_loot;
-	}
-
-	@Override
-	public boolean getIsRepairable(ItemStack repairingItem, ItemStack material) {
-		return false;
-	}
-
+    @Override
+    public boolean getIsRepairable(ItemStack repairingItem, ItemStack material) {
+        return false;
+    }
 }

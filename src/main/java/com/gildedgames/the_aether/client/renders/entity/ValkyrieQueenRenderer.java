@@ -9,8 +9,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
 public class ValkyrieQueenRenderer extends RenderLiving {
-
-    private static final ResourceLocation TEXTURE = Aether.locate("textures/bosses/valkyrie_queen/valkyrie_queen.png");
+    private static final ResourceLocation TEXTURE
+        = Aether.locate("textures/bosses/valkyrie_queen/valkyrie_queen.png");
 
     public ValkyrieQueenRenderer() {
         super(new ValkyrieModel(), 0.3F);
@@ -26,5 +26,4 @@ public class ValkyrieQueenRenderer extends RenderLiving {
     protected ResourceLocation getEntityTexture(Entity entity) {
         return TEXTURE;
     }
-
 }

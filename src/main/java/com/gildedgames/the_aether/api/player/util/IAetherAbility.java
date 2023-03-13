@@ -1,9 +1,7 @@
 package com.gildedgames.the_aether.api.player.util;
 
 public interface IAetherAbility {
+    public void onUpdate();
 
-	public void onUpdate();
-
-	public boolean shouldExecute();
-
+    public boolean shouldExecute();
 }

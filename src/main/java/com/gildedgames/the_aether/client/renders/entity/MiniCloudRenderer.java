@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 public class MiniCloudRenderer extends RenderLiving {
-
     public MiniCloudRenderer() {
         super(new MiniCloudModel(), 0.5F);
     }
@@ -16,5 +15,4 @@ public class MiniCloudRenderer extends RenderLiving {
     protected ResourceLocation getEntityTexture(Entity entity) {
         return Aether.locate("textures/entities/mini_cloud/mini_cloud.png");
     }
-
 }

@@ -9,23 +9,29 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
 public class ZephyrRenderer extends RenderLiving {
+    private static final ResourceLocation TEXTURE
+        = Aether.locate("textures/entities/zephyr/zephyr_main.png");
 
-    private static final ResourceLocation TEXTURE = Aether.locate("textures/entities/zephyr/zephyr_main.png");
+    private static final ResourceLocation TEXTURE_ADDON
+        = Aether.locate("textures/entities/zephyr/zephyr_layer.png");
 
-    private static final ResourceLocation TEXTURE_ADDON = Aether.locate("textures/entities/zephyr/zephyr_layer.png");
-
-    private static final ResourceLocation TEXTURE_OLD = Aether.locate("textures/entities/zephyr/zephyr_old.png");
+    private static final ResourceLocation TEXTURE_OLD
+        = Aether.locate("textures/entities/zephyr/zephyr_old.png");
 
     public ZephyrRenderer() {
-        super(AetherConfig.oldMobsEnabled() ? new OldZephyrModel() : new ZephyrModel(), 0.5F);
+        super(
+            AetherConfig.oldMobsEnabled() ? new OldZephyrModel() : new ZephyrModel(), 0.5F
+        );
     }
 
     protected void renderZephyrMovement(EntityZephyr zephyr, float partialTickTime) {
-        float f1 = ((float) zephyr.prevAttackCounter + (float) (zephyr.attackCounter - zephyr.prevAttackCounter) * partialTickTime) / 20.0F;
+        float f1 = ((float) zephyr.prevAttackCounter
+                    + (float) (zephyr.attackCounter - zephyr.prevAttackCounter)
+                        * partialTickTime)
+            / 20.0F;
 
         if (f1 < 0.0F) {
             f1 = 0.0F;
@@ -66,7 +72,8 @@ public class ZephyrRenderer extends RenderLiving {
     }
 
     @Override
-    protected int shouldRenderPass(EntityLivingBase entity, int pass, float particleTicks) {
+    protected int
+    shouldRenderPass(EntityLivingBase entity, int pass, float particleTicks) {
         return this.renderLayers((EntityZephyr) entity, pass, particleTicks);
     }
 
@@ -79,5 +86,4 @@ public class ZephyrRenderer extends RenderLiving {
     protected ResourceLocation getEntityTexture(Entity zephyr) {
         return AetherConfig.oldMobsEnabled() ? TEXTURE_OLD : TEXTURE;
     }
-
 }

@@ -8,12 +8,11 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
 public class AerbunnyRenderer extends RenderLiving {
-
-    private static final ResourceLocation TEXTURE = Aether.locate("textures/entities/aerbunny/aerbunny.png");
+    private static final ResourceLocation TEXTURE
+        = Aether.locate("textures/entities/aerbunny/aerbunny.png");
 
     public AerbunnyModel model;
 
@@ -39,7 +38,11 @@ public class AerbunnyRenderer extends RenderLiving {
             }
         }
 
-        this.model.puffiness = (float) (entitybunny.ridingEntity != null ? entitybunny.getPuffinessClient() : entitybunny.getPuffiness()) / 10.0F;
+        this.model.puffiness
+            = (float
+              ) (entitybunny.ridingEntity != null ? entitybunny.getPuffinessClient()
+                                                  : entitybunny.getPuffiness())
+            / 10.0F;
     }
 
     @Override
@@ -51,5 +54,4 @@ public class AerbunnyRenderer extends RenderLiving {
     protected ResourceLocation getEntityTexture(Entity entity) {
         return TEXTURE;
     }
-
 }

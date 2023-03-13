@@ -7,11 +7,9 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
 public class CrystalRenderer extends RenderLiving {
-
     public CrystalRenderer() {
         super(new CrystalModel(), 0.25F);
     }
@@ -19,7 +17,8 @@ public class CrystalRenderer extends RenderLiving {
     @Override
     public void preRenderCallback(EntityLivingBase entity, float f) {
         for (int i = 0; i < 3; i++) {
-            ((CrystalModel) this.mainModel).sinage[i] = ((EntityCrystal) entity).sinage[i];
+            ((CrystalModel) this.mainModel).sinage[i]
+                = ((EntityCrystal) entity).sinage[i];
         }
 
         GL11.glTranslatef(0.0F, 0.3F, 0.0F);
@@ -27,7 +26,9 @@ public class CrystalRenderer extends RenderLiving {
 
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
-        return Aether.locate("textures/entities/crystals/" + ((EntityCrystal) entity).getCrystalType().name().toLowerCase() + ".png");
+        return Aether.locate(
+            "textures/entities/crystals/"
+            + ((EntityCrystal) entity).getCrystalType().name().toLowerCase() + ".png"
+        );
     }
-
 }
