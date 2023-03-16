@@ -24,11 +24,8 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -38,12 +35,10 @@ import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.*;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
@@ -52,11 +47,9 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.*;
-import net.minecraftforge.event.world.WorldEvent;
 
 public class AetherEventHandler {
     @SubscribeEvent
@@ -397,14 +390,23 @@ public class AetherEventHandler {
                 AetherWorldProvider providerAether = (AetherWorldProvider) provider;
 
                 providerAether.setIsEternalDay(data.isEternalDay());
-                AetherNetwork.sendToAll(
-                    new PacketSendEternalDay(providerAether.getIsEternalDay())
-                );
+                if (providerAether.getIsEternalDay() != providerAether.eternalDayPrev) {
+                    AetherNetwork.sendToAll(
+                        new PacketSendEternalDay(providerAether.getIsEternalDay())
+                    );
+                    providerAether.eternalDayPrev = providerAether.getIsEternalDay();
+                }
 
                 providerAether.setShouldCycleCatchup(data.isShouldCycleCatchup());
-                AetherNetwork.sendToAll(
-                    new PacketSendShouldCycle(providerAether.getShouldCycleCatchup())
-                );
+                if (providerAether.getShouldCycleCatchup()
+                    != providerAether.shouldCycleCatchupPrev) {
+                    AetherNetwork.sendToAll(
+                        new PacketSendShouldCycle(providerAether.getShouldCycleCatchup())
+                    );
+
+                    providerAether.shouldCycleCatchupPrev
+                        = providerAether.getShouldCycleCatchup();
+                }
             }
         }
 

@@ -7,7 +7,6 @@ import com.gildedgames.the_aether.player.PlayerAether;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
@@ -19,7 +18,9 @@ public class AetherWorldProvider extends WorldProvider {
     private float[] colorsSunriseSunset = new float[4];
 
     private boolean eternalDay;
+    public boolean eternalDayPrev;
     private boolean shouldCycleCatchup;
+    public boolean shouldCycleCatchupPrev;
     private long aetherTime = 6000;
 
     public AetherWorldProvider() {
